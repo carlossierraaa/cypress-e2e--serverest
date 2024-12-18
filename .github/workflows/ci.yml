@@ -1,12 +1,26 @@
-name: End-to-end tests 🧪
-on: [push]
+name: CI Workflow
+
+on:
+  push:               # Executa o workflow quando há push no repositório
+    branches:
+      - main          # Especifique o branch
+  pull_request:       # Também executa ao abrir um PR
+
 jobs:
-  cypress-run:
-    runs-on: ubuntu-20.04
+  build:
+    runs-on: ubuntu-latest # Define o ambiente de execução
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Escolha a versão do Node.js
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar testes
+        run: npm test
