@@ -25,9 +25,13 @@ jobs:
         run: |
           npm install  # Instala as dependências do projeto, incluindo o Cypress
 
-      - name: Garantir permissões para o Cypress
-        run: |
-          chmod +x node_modules/.bin/cypress  # Garantir que o Cypress tenha permissão para ser executado
+      - name: Cache Cypress binary
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cypress-
 
       - name: Run Cypress tests
         run: |
