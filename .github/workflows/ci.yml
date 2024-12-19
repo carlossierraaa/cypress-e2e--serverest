@@ -1,39 +1,12 @@
-name: Run Cypress Tests
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+name: End-to-end tests
+on: push
 jobs:
-  cypress:
-    runs-on: ubuntu-latest
-
+  cypress-run:
+    runs-on: ubuntu-24.04
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: |
-          npm install
-
-      - name: Install Cypress binary
-        run: |
-          npx cypress install  # Garante que o binário do Cypress seja baixado
-
-      - name: Garantir permissões para o Cypress
-        run: |
-          chmod +x ./node_modules/.bin/cypress  # Garantir que o binário tenha permissão de execução
-
-      - name: Run Cypress tests
-        run: |
-          npx cypress run  # Executa os testes do Cypress
-
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
