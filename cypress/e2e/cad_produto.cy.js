@@ -5,7 +5,15 @@ describe('Testes de criação de produto na API da Serverest', () => {
    
   
     before(() => {
-      cy.Login().then((response) => {
+      const novoUsuario = {
+        nome: 'João da Silva',
+        email: `joao${Date.now()}@teste.com`,
+        password: '123456',
+        administrador: 'true'
+      };
+
+      cy.cadastrarUsuario(novoUsuario);
+      cy.Login(novoUsuario).then((response) => {
         expect(response.status).to.eq(200); // Verifica se o login foi bem-sucedido
         token = response.body.authorization; // Armazena o token
       });

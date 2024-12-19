@@ -36,16 +36,19 @@ Cypress.Commands.add('cadastrarUsuario', usuario => {
 
 
 
-Cypress.Commands.add('Login', () => {
-  cy.request({
-    method: 'POST',
-    url: 'https://serverest.dev/login', 
-    body: {
-      email: Cypress.env('email'), 
-      password: Cypress.env('password')
-    }
-})
-})
+Cypress.Commands.add('Login', (novoUsuario) => {
+  return cy.request({
+      method: 'POST',
+      url: 'https://serverest.dev/login',
+      body: {
+          email: novoUsuario.email,
+          password: novoUsuario.password
+      },
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  });
+});
 
 Cypress.Commands.add('createProduct', (token, productData) => {
   cy.request({
